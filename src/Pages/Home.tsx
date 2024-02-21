@@ -13,7 +13,7 @@ const Home = () => {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    axios.get("http://localhost:3000/").then(res => {
+    axios.get("https://library-management-58um.onrender.com/").then(res => {
       setDatas(res.data);
     }).catch(err => console.log(err));
   }, []);
