@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Home = () => {
@@ -18,13 +18,13 @@ const Home = () => {
     }).catch(err => console.log(err));
   }, []);
 
-  const authors = [...new Set(datas.map((item) => item.author))];
-  const titles = [...new Set(datas.map((item) => item.title))];
-  const subjects = [...new Set(datas.map((item) => item.subjects))];
-  const dates = [...new Set(datas.map((item) => item.publish))];
+  const authors = [...new Set(datas.map((item:any) => item.author))];
+  const titles = [...new Set(datas.map((item:any) => item.title))];
+  const subjects = [...new Set(datas.map((item:any) => item.subjects))];
+  const dates = [...new Set(datas.map((item:any) => item.publish))];
 
   // Filter based on selected options
-  const filteredItems = datas.filter((item) => {
+  const filteredItems = datas.filter((item:any) => {
     return (
       (filters.title === '' || item.title === filters.title) &&
       (filters.author === '' || item.author === filters.author) &&
@@ -43,7 +43,7 @@ const Home = () => {
   // Get items for the current page
   const filteritems = filteredItems.slice(startIndex, endIndex);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page:any) => {
     setCurrentPage(page);
   };
 
@@ -121,7 +121,7 @@ const Home = () => {
             </tr>
           </thead>
           <tbody>
-            {filteritems.map((item, index) => (
+            {filteritems.map((item:any, index) => (
               <tr key={index}>
                 <td>{item.title}</td>
                 <td>{item.author}</td>
