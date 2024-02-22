@@ -10,12 +10,7 @@ const Home = () => {
     date: '',
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const [newBook, setNewBook] = useState({
-    title: '',
-    author: '',
-    subjects: '',
-    publish: '',
-  });
+
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -47,28 +42,9 @@ const Home = () => {
     setCurrentPage(page);
   };
 
-  const openAddBookModal = () => {
-    setIsAddBookModalOpen(true);
-  };
 
-  const closeAddBookModal = () => {
-    setIsAddBookModalOpen(false);
-    setNewBook({
-      title: '',
-      author: '',
-      subjects: '',
-      publish: '',
-    });
-  };
 
-  const handleAddBook = () => {
-    axios.post("https://library-management-2-ri59.onrender.com/add-book", newBook)
-      .then(response => {
-        setDatas(response.data);
-        closeAddBookModal();
-      })
-      .catch(err => console.log(err));
-  };
+ 
 
   return (
     <>
@@ -133,7 +109,6 @@ const Home = () => {
             </option>
           ))}
         </select>
-     
         <table className="table table-bordered table-striped table-hover text-white">
           <thead>
             <tr>
@@ -167,59 +142,6 @@ const Home = () => {
         </nav>
         <p className="text-white">Total Books Available: {filteredItems.length}</p>
       </div>
-        <div className="modal" tabIndex={-1} role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Add Book</h5>
-                <button type="button" className="btn-close" onClick={closeAddBookModal}></button>
-              </div>
-              <div className="modal-body">
-                <form>
-                  <div className="mb-3">
-                    <label>Title</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newBook.title}
-                      onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label>Author</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newBook.author}
-                      onChange={(e) => setNewBook({ ...newBook, author: e.target.value })}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label>Subjects</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newBook.subjects}
-                      onChange={(e) => setNewBook({ ...newBook, subjects: e.target.value })}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label>Publishing Date</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={newBook.publish}
-                      onChange={(e) => setNewBook({ ...newBook, publish: e.target.value })}
-                    />
-                  </div>
-                  <button type="button" className="btn btn-primary" onClick={handleAddBook}>
-                    Add Book
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
       
     </>
   );
