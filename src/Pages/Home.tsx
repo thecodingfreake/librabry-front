@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 const Home = () => {
   const [datas, setDatas] = useState([]);
   const [filters, setFilters] = useState({
@@ -109,6 +109,11 @@ const Home = () => {
             </option>
           ))}
         </select>
+        <Link to="/add">
+          <button style={{ marginTop: '16px', padding: '8px', cursor: 'pointer', backgroundColor: 'blue', color: 'white' }}>
+            Add books
+          </button>
+        </Link>
         <table className="table table-bordered table-striped table-hover text-white">
           <thead>
             <tr>
