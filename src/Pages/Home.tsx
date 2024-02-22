@@ -16,7 +16,6 @@ const Home = () => {
     subjects: '',
     publish: '',
   });
-  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -134,9 +133,7 @@ const Home = () => {
             </option>
           ))}
         </select>
-        <button className="btn btn-primary" onClick={openAddBookModal}>
-          Add Book
-        </button>
+     
         <table className="table table-bordered table-striped table-hover text-white">
           <thead>
             <tr>
