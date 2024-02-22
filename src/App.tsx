@@ -1,12 +1,16 @@
-
+import { BrowserRouter as Router, Route,Routes } from 'react-router-dom'
 import './App.css'
 import Home from './Pages/Home'
-function App() {
+import AddBook from './Pages/AddBook'
 
+function App() {
   return (
-    <>
-      <Home/>
-    </>
+    <Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/add" element={<AddBook />} />
+    </Routes>
+  </Router>
   )
 }
 
