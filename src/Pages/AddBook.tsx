@@ -9,21 +9,10 @@ interface Book {
   publish: string;
 }
 
-interface Filters {
-  title: string;
-  author: string;
-  subject: string;
-  date: string;
-}
 
 const Home: React.FC = () => {
   const [datas, setDatas] = useState<Book[]>([]);
-  const [filters, setFilters] = useState<Filters>({
-    title: '',
-    author: '',
-    subject: '',
-    date: '',
-  });
+ 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [newBook, setNewBook] = useState<Book>({
     id: 0,
@@ -39,20 +28,15 @@ const Home: React.FC = () => {
     axios.get<Book[]>("https://library-management-2-ri59.onrender.com/")
       .then(res => setDatas(res.data))
       .catch(err => console.log(err));
-  }, [filters]);
+  }, []);
 
 
-  const filteredItems = datas.filter((item) => (
-    (filters.title === '' || item.title === filters.title) &&
-    (filters.author === '' || item.author === filters.author) &&
-    (filters.subject === '' || item.subjects === filters.subject) &&
-    (filters.date === '' || item.publish === filters.date)
-  ));
+ 
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const totalPages = Math.ceil(datas.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const filteritems = filteredItems.slice(startIndex, endIndex);
+  const filteritems = datas.slice(startIndex, endIndex);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -183,7 +167,7 @@ const Home: React.FC = () => {
             ))}
           </ul>
         </nav>
-        <p className="text-white">Total Books Available: {filteredItems.length}</p>
+        <p className="text-white">Total Books Available: {datas.length}</p>
       </div>
     </>
   );
