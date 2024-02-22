@@ -10,20 +10,26 @@ const Home = () => {
     date: '',
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [newBook, setNewBook] = useState({
+    title: '',
+    author: '',
+    subjects: '',
+    publish: '',
+  });
+  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const itemsPerPage = 5;
 
   useEffect(() => {
     axios.get("https://library-management-2-ri59.onrender.com/").then(res => {
       setDatas(res.data);
     }).catch(err => console.log(err));
-  }, []);
+  }, [filters]);
 
   const authors = [...new Set(datas.map((item:any) => item.author))];
   const titles = [...new Set(datas.map((item:any) => item.title))];
   const subjects = [...new Set(datas.map((item:any) => item.subjects))];
   const dates = [...new Set(datas.map((item:any) => item.publish))];
 
-  // Filter based on selected options
   const filteredItems = datas.filter((item:any) => {
     return (
       (filters.title === '' || item.title === filters.title) &&
@@ -33,24 +39,42 @@ const Home = () => {
     );
   });
 
-  // Calculate total number of pages
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-
-  // Calculate start and end index for current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-
-  // Get items for the current page
   const filteritems = filteredItems.slice(startIndex, endIndex);
 
   const handlePageChange = (page:any) => {
     setCurrentPage(page);
   };
 
+  const openAddBookModal = () => {
+    setIsAddBookModalOpen(true);
+  };
+
+  const closeAddBookModal = () => {
+    setIsAddBookModalOpen(false);
+    setNewBook({
+      title: '',
+      author: '',
+      subjects: '',
+      publish: '',
+    });
+  };
+
+  const handleAddBook = () => {
+    axios.post("https://library-management-2-ri59.onrender.com/add-book", newBook)
+      .then(response => {
+        setDatas(response.data);
+        closeAddBookModal();
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <>
       <div style={{ padding: '20px' }}>
-      <label htmlFor="title" className="form-label text-white">
+        <label htmlFor="title" className="form-label text-white">
           Title
         </label>
         <select
@@ -110,7 +134,9 @@ const Home = () => {
             </option>
           ))}
         </select>
-
+        <button className="btn btn-primary" onClick={openAddBookModal}>
+          Add Book
+        </button>
         <table className="table table-bordered table-striped table-hover text-white">
           <thead>
             <tr>
@@ -131,8 +157,6 @@ const Home = () => {
             ))}
           </tbody>
         </table>
-
-        {/* Pagination */}
         <nav>
           <ul className="pagination">
             {Array.from({ length: totalPages }, (_, index) => (
@@ -144,7 +168,62 @@ const Home = () => {
             ))}
           </ul>
         </nav>
+        <p className="text-white">Total Books Available: {filteredItems.length}</p>
       </div>
+        <div className="modal" tabIndex={-1} role="dialog">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Add Book</h5>
+                <button type="button" className="btn-close" onClick={closeAddBookModal}></button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="mb-3">
+                    <label>Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newBook.title}
+                      onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label>Author</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newBook.author}
+                      onChange={(e) => setNewBook({ ...newBook, author: e.target.value })}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label>Subjects</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newBook.subjects}
+                      onChange={(e) => setNewBook({ ...newBook, subjects: e.target.value })}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label>Publishing Date</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={newBook.publish}
+                      onChange={(e) => setNewBook({ ...newBook, publish: e.target.value })}
+                    />
+                  </div>
+                  <button type="button" className="btn btn-primary" onClick={handleAddBook}>
+                    Add Book
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      
     </>
   );
 };
