@@ -85,19 +85,19 @@ const Home: React.FC = () => {
           <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Add a New Book</h2>
           <form style={{ display: 'flex', flexDirection: 'column' }}>
             <label style={{ marginBottom: '8px' }}>ID:</label>
-            <input type="number" name="id" value={newBook.id} onChange={handleInputChange} />
+            <input type="number" name="id" value={newBook.id} maxLength={30} onChange={handleInputChange} />
 
             <label style={{ marginBottom: '8px', marginTop: '8px' }}>Title:</label>
-            <input type="text" name="title" value={newBook.title} onChange={handleInputChange} />
+            <input type="text" name="title" value={newBook.title} maxLength={30} onChange={handleInputChange} />
 
             <label style={{ marginBottom: '8px', marginTop: '8px' }}>Author:</label>
-            <input type="text" name="author" value={newBook.author} onChange={handleInputChange} />
+            <input type="text" name="author" value={newBook.author}maxLength={40} onChange={handleInputChange} />
 
             <label style={{ marginBottom: '8px', marginTop: '8px' }}>Subjects:</label>
-            <input type="text" name="subjects" value={newBook.subjects} onChange={handleInputChange} />
+            <input type="text" name="subjects" value={newBook.subjects}  maxLength={30} onChange={handleInputChange} />
 
             <label style={{ marginBottom: '8px', marginTop: '8px' }}>Publishing date:</label>
-            <input type="text" name="publish" value={newBook.publish} onChange={handleInputChange} />
+            <input type="date" name="publish" value={newBook.publish} onChange={handleInputChange} />
 
             <button
               style={{
